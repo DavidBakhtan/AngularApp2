@@ -1,0 +1,52 @@
+/* src/app/components/task-item/task-item.component.css */
+.task-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.task-main-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.task-meta {
+  margin-left: 25px;
+  color: #555;
+}
+
+.task-item span.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.edit-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.edit-form input {
+  flex: 1;
+  padding: 5px;
+}
+
+.edit-form button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-form button:hover {
+  background-color: #2980b9;
+}

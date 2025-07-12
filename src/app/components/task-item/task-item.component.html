@@ -1,0 +1,34 @@
+<!-- src/app/components/task-item/task-item.component.html -->
+<li>
+  <div *ngIf="editingTaskId !== task.id" class="task-item">
+    <div class="task-main-row">
+      <input type="checkbox" [checked]="task.completed" (change)="onToggle()" />
+      <span [class.completed]="task.completed">{{ task.title }}</span>
+      <button *ngIf="!task.completed" (click)="onReschedule()">⏱</button>
+      <button (click)="onStartEdit()">Edit</button>
+      <button type="button"(click)="onDelete()">🗑 Delete</button>
+    </div>
+    <div class="task-meta">
+      <small *ngIf="task.description">📌 {{ task.description }}</small><br />
+      <small *ngIf="task.date || task.time">
+        🗓 {{ task.date }}
+        🕒 {{ task.time }}
+      </small><br />
+      <small *ngIf="task.reminderMinutes">
+        ⏰ Reminder:
+        {{
+        task.reminderMinutes >= 10080 ? (task.reminderMinutes / 10080) + ' week(s)' :
+        task.reminderMinutes >= 1440 ? (task.reminderMinutes / 1440) + ' day(s)' :
+        task.reminderMinutes >= 60 ? (task.reminderMinutes / 60) + ' hour(s)' :
+        task.reminderMinutes + ' minute(s)'
+        }}
+      </small>
+    </div>
+  </div>
+
+  <div *ngIf="editingTaskId === task.id" class="edit-form">
+    <input [(ngModel)]="editedTaskTitle" name="editTask" />
+    <button (click)="onSave()">Save</button>
+    <button (click)="onCancel()">Cancel</button>
+  </div>
+</li>

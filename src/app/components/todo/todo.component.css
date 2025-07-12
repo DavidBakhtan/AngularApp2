@@ -1,0 +1,110 @@
+.todo-container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #3498db;
+  color: white;
+}
+
+.add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-form input {
+  flex: 1 1 48%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 120px;
+}
+
+.add-form button {
+  padding: 8px 16px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex: 1 1 100%;
+}
+
+.add-form button:hover {
+  background-color: #219150;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item,
+.edit-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  background: #f7f7f7;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.task-item input[type="checkbox"] {
+  transform: scale(1.2);
+}
+
+.task-item span.completed {
+  text-decoration: line-through;
+  color: gray;
+  font-weight: 500;
+}
+
+.task-item span {
+  flex: 1 1 100%;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+small {
+  font-size: 12px;
+  color: #555;
+  flex: 1 1 100%;
+}
+
+.task-item button,
+.edit-form button {
+  padding: 6px 12px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.task-item button:hover,
+.edit-form button:hover {
+  background-color: #bbb;
+}
+
+.edit-form input {
+  flex: 1 1 70%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}

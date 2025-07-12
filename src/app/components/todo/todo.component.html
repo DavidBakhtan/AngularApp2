@@ -1,0 +1,42 @@
+<form (ngSubmit)="addTask()" class="add-form" novalidate>
+  <input [(ngModel)]="newTaskTitle" name="title" placeholder="Task Title" required />
+  <input [(ngModel)]="newTaskDescription" name="desc" placeholder="Optional Description" />
+  <input type="date" [(ngModel)]="newTaskDate" name="date" />
+  <input type="time" [(ngModel)]="newTaskTime" name="time" />
+
+  <!-- Reminder with Unit Selector -->
+  <div class="reminder-section">
+    <input
+      type="number"
+      [(ngModel)]="reminderValue"
+      name="reminderValue"
+      placeholder="Reminder"
+      min="0"
+    />
+    <select [(ngModel)]="reminderUnit" name="reminderUnit">
+      <option value="minutes">Minutes</option>
+      <option value="hours">Hours</option>
+      <option value="days">Days</option>
+      <option value="weeks">Weeks</option>
+    </select>
+  </div>
+
+  <button type="submit">Add</button>
+</form>
+
+<!-- Tasks List -->
+<ul class="task-list">
+  <app-task-item
+  *ngFor="let task of tasks;"
+  [task]="task"
+  [editingTaskId]="editingTaskId"
+  [editedTaskTitle]="editedTaskTitle"
+  (toggle)="toggleTask(task)"
+  (delete)="deleteTask($event)"
+  (edit)="startEditing($event)"
+  (save)="saveEditing($event)"
+  (cancel)="cancelEditing()"
+  (reschedule)="rescheduleTask($event)"
+></app-task-item>
+
+</ul>
