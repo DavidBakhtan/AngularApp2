@@ -4,6 +4,13 @@ export interface TaskModel {
   description?: string;
   date?: string;
   time?: string;
-  reminderMinutes?: number;
   completed: boolean;
+  label?: string;
+  imageUrl?: string;
+
+  // ✨ أضف ده لو عايز تستخدم reminder ككائن
+  reminder?: {
+    value: number;
+    unit: 'minutes' | 'hours' | 'days' | 'weeks';
+  };
 }

@@ -1,12 +1,9 @@
-// task.service.ts
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TaskModel } from '../models/task.model';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TaskModel } from '../models/task.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class TaskService {
   private apiUrl = 'http://localhost:3000/tasks';
 
@@ -16,18 +13,15 @@ export class TaskService {
     return this.http.get<TaskModel[]>(this.apiUrl);
   }
 
- deleteTask(id: string): Observable<any> {
-  return this.http.delete(`${this.apiUrl}/${id}`);
-}
+  addTask(task: TaskModel): Observable<TaskModel> {
+    return this.http.post<TaskModel>(this.apiUrl, task);
+  }
 
-addTask(task: TaskModel): Observable<any> {
-  return this.http.post(this.apiUrl, task);
-}
+  updateTask(task: TaskModel): Observable<TaskModel> {
+    return this.http.put<TaskModel>(`${this.apiUrl}/${task.id}`, task);
+  }
 
-updateTask(task: TaskModel): Observable<any> {
-  return this.http.put(`${this.apiUrl}/${task.id}`, task);
-}
-
-
-
+  deleteTask(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

@@ -1,42 +1,66 @@
-<form (ngSubmit)="addTask()" class="add-form" novalidate>
-  <input [(ngModel)]="newTaskTitle" name="title" placeholder="Task Title" required />
-  <input [(ngModel)]="newTaskDescription" name="desc" placeholder="Optional Description" />
-  <input type="date" [(ngModel)]="newTaskDate" name="date" />
-  <input type="time" [(ngModel)]="newTaskTime" name="time" />
+<!-- src/app/components/todo/todo.component.html -->
 
-  <!-- Reminder with Unit Selector -->
-  <div class="reminder-section">
-    <input
-      type="number"
-      [(ngModel)]="reminderValue"
-      name="reminderValue"
-      placeholder="Reminder"
-      min="0"
-    />
-    <select [(ngModel)]="reminderUnit" name="reminderUnit">
-      <option value="minutes">Minutes</option>
-      <option value="hours">Hours</option>
-      <option value="days">Days</option>
-      <option value="weeks">Weeks</option>
-    </select>
+<div class="todo-container">
+  <div>
+    <h1>Task Menager</h1>
+    <div class="progress-container">
+  <div class="progress-bar" [style.width.%]="progressPercent"></div>
+  <small>{{ progressPercent }}%</small>
+</div>
+
+    <button (click)="toggleAddForm()" class="add-task-button">+ Add Task</button>
   </div>
+<br>
+  <!-- Task Form -->
+  <form *ngIf="showAddForm" (ngSubmit)="editingTaskId ? onEditTaskSubmit() : addTask()" class="task-form">
+    <input [(ngModel)]="editedTaskTitle" name="title" placeholder="Task Title" required />
+    <textarea [(ngModel)]="editedTaskDescription" name="description" placeholder="Description"></textarea>
 
-  <button type="submit">Add</button>
-</form>
+    <div class="date-time-row">
+      <label for="date">📅 Date:</label>
+      <input type="date" [(ngModel)]="editedTaskDate" name="date" id="date" (change)="onDateChange()" />
+      <label for="time">⏰ Time:</label>
+      <input id="time" #timeInput [(ngModel)]="editedTaskTime" [ngxTimepicker]="picker" readonly
+        placeholder="Select Time" class="fancy-time-input" name="time" />
+      <ngx-material-timepicker #picker></ngx-material-timepicker>
+    </div>
 
-<!-- Tasks List -->
-<ul class="task-list">
-  <app-task-item
-  *ngFor="let task of tasks;"
+    <div class="reminder-row">
+      <input type="number" [(ngModel)]="editedReminderValue" name="reminderValue" placeholder="Reminder (e.g., 10)"
+        min="0" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+      <select [(ngModel)]="editedReminderUnit" name="reminderUnit">
+        <option value="minutes">Minutes</option>
+        <option value="hours">Hours</option>
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+      </select>
+    </div>
+    <select [(ngModel)]="editedTaskLabel" name="label">
+      <option value="">Select Label</option>
+      <option value="Work">Work</option>
+      <option value="Personal">Personal</option>
+      <option value="Urgent">Urgent</option>
+      <option value="Low">Low</option>
+    </select>
+
+    <input [(ngModel)]="editedTaskImageUrl" name="imageUrl" placeholder="Image URL" required/>
+
+    <div class="form-actions">
+      <button type="submit">{{ editingTaskId ? 'Save Changes' : 'Add Task' }}</button>
+      <button type="button" (click)="cancelEdit()">Cancel</button>
+    </div>
+  </form>
+
+  <!-- Task List -->
+  <ul class="task-list">
+    <app-task-item
+  *ngFor="let task of tasks"
   [task]="task"
   [editingTaskId]="editingTaskId"
-  [editedTaskTitle]="editedTaskTitle"
-  (toggle)="toggleTask(task)"
-  (delete)="deleteTask($event)"
-  (edit)="startEditing($event)"
-  (save)="saveEditing($event)"
-  (cancel)="cancelEditing()"
-  (reschedule)="rescheduleTask($event)"
+  (edit)="startEditTask($event)"
+  (delete)="onDeleteTask($event)"
+  (toggle)="onToggleTask($event)"
 ></app-task-item>
 
-</ul>
+  </ul>
+</div>

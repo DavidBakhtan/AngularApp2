@@ -1,110 +1,159 @@
+/* src/app/components/todo/todo.component.css */
+
 .todo-container {
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 20px;
-  border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  padding: 10px;
-  border-radius: 6px;
-  background-color: #3498db;
+.add-button {
+  background-color: #007bff;
   color: white;
-}
-
-.add-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.add-form input {
-  flex: 1 1 48%;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  min-width: 120px;
-}
-
-.add-form button {
-  padding: 8px 16px;
-  background-color: #27ae60;
-  color: white;
+  padding: 0.5rem 1rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  flex: 1 1 100%;
+  margin-bottom: 1rem;
 }
 
-.add-form button:hover {
-  background-color: #219150;
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.task-form input,
+.task-form select,
+.task-form button {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 .task-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-.task-item,
-.edit-form {
+.task-item {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-  background: #f7f7f7;
-  padding: 12px;
+  flex-direction: column;
+  background-color: #fff;
   border-radius: 8px;
-  border: 1px solid #eee;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
 }
 
-.task-item input[type="checkbox"] {
-  transform: scale(1.2);
+.task-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.task-item span.completed {
-  text-decoration: line-through;
-  color: gray;
-  font-weight: 500;
+.task-details {
+  flex: 1;
 }
 
-.task-item span {
-  flex: 1 1 100%;
-  font-size: 16px;
-  font-weight: 500;
+.task-details h3 {
+  margin: 0;
+  font-size: 1.2rem;
 }
 
-small {
-  font-size: 12px;
+.task-details p {
+  margin: 0.25rem 0;
+}
+
+.task-details small {
   color: #555;
-  flex: 1 1 100%;
 }
 
-.task-item button,
-.edit-form button {
-  padding: 6px 12px;
-  background-color: #ddd;
+.task-details h3.completed {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+.task-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-left: 1rem;
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+/* في todo.component.css أو global styles */
+input[type="time"].custom-time {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.task-actions button {
+  padding: 0.4rem 0.8rem;
   border: none;
   border-radius: 4px;
+  background-color: #eee;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
-.task-item button:hover,
-.edit-form button:hover {
-  background-color: #bbb;
+.task-actions button:hover {
+  background-color: #ddd;
 }
-
-.edit-form input {
-  flex: 1 1 70%;
-  padding: 8px;
-  border-radius: 4px;
+.time-input {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
   border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+.fancy-time-input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+  cursor: pointer;
+}
+.add-task-button {
+  background-color: #560202;
+  border: #aaa;
+  border-radius: 4px;
+  color: #fff;
+  width: 150px;
+  height: 40px;
+  font-size: medium;
+}
+h1 {
+  background-color: #023a56;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    width: 100%;
+    color: #fff;
+    padding: 10px;
+}
+.progress-container {
+  background: #eee;
+  border-radius: 8px;
+  height: 20px;
+  width: 100%;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+.progress-bar {
+  background: linear-gradient(to right, #4caf50, #81c784);
+  height: 100%;
+  transition: width 0.5s ease;
 }
