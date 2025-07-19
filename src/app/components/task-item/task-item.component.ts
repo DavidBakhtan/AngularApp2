@@ -14,7 +14,6 @@ export class TaskItemComponent {
   @Input() task!: TaskModel;
   @Input() editingTaskId: string | null = null;
   @Input() editedTaskTitle: string = '';
-
   @Output() toggle = new EventEmitter<TaskModel>();
   @Output() delete = new EventEmitter<string>();
   @Output() edit = new EventEmitter<TaskModel>();
@@ -29,7 +28,6 @@ export class TaskItemComponent {
  onDelete() {
   this.delete.emit(this.task.id); 
 }
-
 
   onStartEdit() {
     this.edit.emit(this.task);
