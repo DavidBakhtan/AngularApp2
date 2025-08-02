@@ -1,7 +1,7 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   MediaMatcher
-} from "./chunk-JJEXWCAZ.js";
+} from "./chunk-MNAQXYHL.js";
 import {
   ANIMATION_MODULE_TYPE,
   InjectionToken,
@@ -87,4 +87,4 @@ export {
   _getAnimationsState,
   _animationsDisabled
 };
-//# sourceMappingURL=chunk-5QMW6NZA.js.map
+//# sourceMappingURL=chunk-EXYP33R3.js.map

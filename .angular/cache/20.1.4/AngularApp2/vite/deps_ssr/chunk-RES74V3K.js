@@ -1,11 +1,12 @@
+import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   _CdkPrivateStyleLoader
-} from "./chunk-5HFVGQQW.js";
+} from "./chunk-GLCRVRL7.js";
 import {
   Platform,
   coerceElement,
   coerceNumberProperty
-} from "./chunk-BPPNNTFS.js";
+} from "./chunk-NT3SPRVQ.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -23,6 +24,7 @@ import {
   ViewEncapsulation,
   booleanAttribute,
   inject,
+  require_operators,
   setClassMetadata,
   ɵɵdefineComponent,
   ɵɵdefineDirective,
@@ -30,14 +32,17 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵlistener
-} from "./chunk-UE4MNTBD.js";
+} from "./chunk-4XOO6SLN.js";
 import {
-  EMPTY,
-  Subject,
-  auditTime
-} from "./chunk-3STIUTR6.js";
+  require_cjs
+} from "./chunk-DMO44UNM.js";
+import {
+  __toESM
+} from "./chunk-6DU2HRTW.js";
 
 // node_modules/@angular/cdk/fesm2022/text-field.mjs
+var import_rxjs = __toESM(require_cjs(), 1);
+var import_operators = __toESM(require_operators(), 1);
 var _CdkTextFieldStyleLoader = class __CdkTextFieldStyleLoader {
   static ɵfac = function _CdkTextFieldStyleLoader_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || __CdkTextFieldStyleLoader)();
@@ -82,7 +87,7 @@ var AutofillMonitor = class _AutofillMonitor {
   }
   monitor(elementOrRef) {
     if (!this._platform.isBrowser) {
-      return EMPTY;
+      return import_rxjs.EMPTY;
     }
     this._styleLoader.load(_CdkTextFieldStyleLoader);
     const element = coerceElement(elementOrRef);
@@ -90,7 +95,7 @@ var AutofillMonitor = class _AutofillMonitor {
     if (info) {
       return info.subject;
     }
-    const subject = new Subject();
+    const subject = new import_rxjs.Subject();
     const cssClass = "cdk-text-field-autofilled";
     const listener = (event) => {
       if (event.animationName === "cdk-text-field-autofill-start" && !element.classList.contains(cssClass)) {
@@ -189,11 +194,11 @@ var CdkTextareaAutosize = class _CdkTextareaAutosize {
   _platform = inject(Platform);
   _ngZone = inject(NgZone);
   _renderer = inject(Renderer2);
-  _resizeEvents = new Subject();
+  _resizeEvents = new import_rxjs.Subject();
   /** Keep track of the previous textarea value to avoid resizing when the value hasn't changed. */
   _previousValue;
   _initialHeight;
-  _destroyed = new Subject();
+  _destroyed = new import_rxjs.Subject();
   _listenerCleanups;
   _minRows;
   _maxRows;
@@ -277,7 +282,7 @@ var CdkTextareaAutosize = class _CdkTextareaAutosize {
       this.resizeToFitContent();
       this._ngZone.runOutsideAngular(() => {
         this._listenerCleanups = [this._renderer.listen("window", "resize", () => this._resizeEvents.next()), this._renderer.listen(this._textareaElement, "focus", this._handleFocusEvent), this._renderer.listen(this._textareaElement, "blur", this._handleFocusEvent)];
-        this._resizeEvents.pipe(auditTime(16)).subscribe(() => {
+        this._resizeEvents.pipe((0, import_operators.auditTime)(16)).subscribe(() => {
           this._cachedLineHeight = this._cachedPlaceholderHeight = void 0;
           this.resizeToFitContent(true);
         });
@@ -503,4 +508,4 @@ export {
   CdkTextareaAutosize,
   TextFieldModule
 };
-//# sourceMappingURL=chunk-Y2L5WDBD.js.map
+//# sourceMappingURL=chunk-RES74V3K.js.map

@@ -120,10 +120,10 @@
     (toggle)="onToggleTask($event)">
   </app-task-item>
 </ul>
-
-<button mat-fab
-        color="primary"
-        class="fab-button"
-        (click)="toggleAddForm()">
-  {{ showAddForm ? 'Close' : 'Add' }}
-</button>
+<div class="fab-button">
+  <button mat-fab
+          color="primary"
+          (click)="toggleAddForm()">
+    {{ showAddForm ? 'Close' : 'Add' }}
+  </button>
+</div>
