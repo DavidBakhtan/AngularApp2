@@ -1,0 +1,23 @@
+<!-- src/app/components/task-item/task-item.component.html -->
+
+<li   [ngStyle]="{ 'border-left': '8px solid ' + getLabelColor(task.label), 'background-color': getBGLabelColor(task.label) }" class="task-wrapper">
+  <div *ngIf="editingTaskId !== task.id" class="task-item">
+    <div class="task-content">
+      <div class="task-details">
+        <input type="checkbox" [checked]="task.completed" (change)="onToggle()" />
+        <div>
+          <h3 [class.completed]="task.completed">{{ task.title }}</h3>
+          <p [class.completed]="task.completed">{{ task.description }}</p>
+          <small [class.completed]="task.completed">{{ task.date }} {{ task.time }}</small><br />
+          <small [class.completed]="task.completed" *ngIf="task.reminder">🔔 Reminder in {{ task.reminder.value }} {{ task.reminder.unit }}</small><br />
+          <small [class.completed]="task.completed" *ngIf="task.label">🏷 {{ task.label }}</small>
+        </div>
+      </div>
+      <img [src]="task.imageUrl" class="task-image" *ngIf="task.imageUrl" />
+    </div>
+    <div class="task-actions">
+      <button (click)="onEdit()">Edit</button>
+      <button (click)="onDelete()">Delete</button>
+    </div>
+  </div>
+</li>

@@ -1,0 +1,129 @@
+<!-- src/app/components/todo/todo.component.html -->
+
+<mat-toolbar color="primary" class="toolbar">
+  My Tasks
+  <span class="spacer"></span>
+</mat-toolbar>
+
+<ng-container *ngIf="showAddForm">
+  <div class="overlay" (click)="cancelEdit()">
+    <div class="dialog" (click)="$event.stopPropagation()">
+      <mat-card class="form-card">
+        <form (ngSubmit)="onSubmit()" class="task-form">
+          <!-- Title -->
+          <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput [(ngModel)]="editedTaskTitle" name="title" required autofocus />
+          </mat-form-field>
+
+          <!-- Description -->
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="3" [(ngModel)]="editedTaskDescription" name="description"></textarea>
+          </mat-form-field>
+
+          <!-- Date & Time -->
+          <div class="form-row">
+           <mat-form-field appearance="outline">
+            <mat-label>Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="dp"
+              [(ngModel)]="editedTaskDate"
+              name="date"
+              [min]="today"
+              required
+            />
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+          </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Time</mat-label>
+              <input matInput readonly
+                     [(ngModel)]="editedTaskTime"
+                     name="time"
+                     [ngxTimepicker]="picker"
+                     placeholder="Select Time"
+                     required />
+              <ngx-material-timepicker #picker></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
+
+          <!-- Reminder -->
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Reminder</mat-label>
+              <input matInput type="number"
+                     min="0"
+                     [(ngModel)]="editedReminderValue"
+                     name="reminderValue" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Unit</mat-label>
+              <mat-select [(ngModel)]="editedReminderUnit" name="reminderUnit">
+                <mat-option value="minutes">Minutes</mat-option>
+                <mat-option value="hours">Hours</mat-option>
+                <mat-option value="days">Days</mat-option>
+                <mat-option value="weeks">Weeks</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Label -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Label</mat-label>
+            <mat-select [(ngModel)]="editedTaskLabel" name="label">
+              <mat-option value="">None</mat-option>
+              <mat-option value="Work">Work</mat-option>
+              <mat-option value="Personal">Personal</mat-option>
+              <mat-option value="Urgent">Urgent</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Image URL -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Image URL</mat-label>
+            <input matInput
+                   [(ngModel)]="editedTaskImageUrl"
+                   name="imageUrl"
+                   required />
+          </mat-form-field>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button mat-flat-button color="primary" type="submit">
+              {{ editingTaskId ? 'Save' : 'Add' }}
+            </button>
+            <button mat-button type="button" (click)="cancelEdit()">Cancel</button>
+          </div>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+</ng-container>
+
+<!-- Progress -->
+<div class="progress-container">
+  <mat-progress-bar mode="determinate" [value]="progressPercent"></mat-progress-bar>
+  <small>{{ progressPercent }}%</small>
+</div>
+
+<!-- Task List -->
+<ul class="task-list">
+  <app-task-item
+    *ngFor="let task of tasks"
+    [task]="task"
+    [editingTaskId]="editingTaskId"
+    (edit)="startEditTask($event)"
+    (delete)="onDeleteTask($event)"
+    (toggle)="onToggleTask($event)">
+  </app-task-item>
+</ul>
+
+<button mat-fab
+        color="primary"
+        class="fab-button"
+        (click)="toggleAddForm()">
+  {{ showAddForm ? 'Close' : 'Add' }}
+</button>

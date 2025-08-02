@@ -1,0 +1,68 @@
+/* src/app/components/task-item/task-item.component.css */
+
+.task-wrapper {
+  list-style: none;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.task-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.task-details {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.task-details input[type='checkbox'] {
+  margin-top: 5px;
+}
+
+.task-details h3 {
+  margin: 0;
+}
+
+.task-details small.completed, p.completed, h3.completed {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.task-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-left: 1rem;
+}
+
+.task-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  align-self: flex-end;
+}
+
+button {
+  padding: 4px 8px;
+  border: none;
+  background-color: #1976d2;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1565c0;
+}

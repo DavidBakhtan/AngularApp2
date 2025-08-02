@@ -1,0 +1,228 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* ---------------------------------------------
+   متغيّرات الألوان والأساسيات
+--------------------------------------------- */
+:root {
+  --primary-color: #6200ea;
+  --primary-contrast: #fff;
+  --accent-color: #03dac6;
+  --text-color: #333;
+  --bg-light: #f5f5f5;
+}
+
+/* ================================================
+   1) الحاوية الأساسية وخلفية الصفحة
+   ================================================ */
+:host, html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #eceff1;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: var(--text-color);
+}
+
+/* ================================================
+   2) Overlay للفورم (تحت الـ pickers)
+   ================================================ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900; /* أقل من الـ CDK overlay */
+  animation: fadeIn 0.3s ease;
+}
+
+/* ================================================
+   3) حاوية الـ dialog للفورم
+   ================================================ */
+.dialog {
+  width: 90%;
+  max-width: 500px;
+  margin: 16px;
+  animation: slideIn 0.3s ease;
+}
+
+.form-card {
+  padding: 24px;
+  border-radius: 12px;
+  background: #fff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ================================================
+   4) تنسيقات الـ form
+   ================================================ */
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline-start,
+mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ================================================
+   5) الأزرار
+   ================================================ */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+button[mat-flat-button] {
+  padding: 8px 24px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  background: var(--primary-color);
+  color: var(--primary-contrast);
+  transition: background 0.2s ease;
+}
+button[mat-flat-button]:hover {
+  background: #5300d6;
+}
+
+button[mat-button] {
+  color: var(--text-color);
+}
+
+/* ================================================
+   6) شريط التقدّم وقائمة المهام
+   ================================================ */
+.progress-container {
+  margin: 24px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.task-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+  gap: 16px;
+  margin: 16px;
+}
+
+/* ================================================
+   7) Toolbar
+   ================================================ */
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  font-size: 1.25rem;
+}
+
+.spacer { flex: 1 1 auto; }
+
+/* ================================================
+   8) Animations
+   ================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to   { transform: translateY(0);       opacity: 1; }
+}
+
+/* ================================================
+   9) رفع z-indices للـ pickers (datepicker & timepicker)
+   ================================================ */
+/* كسر encapsulation للـ override */
+.cdk-overlay-container {
+  z-index: 1000 !important;
+}
+
+/* Datepicker */
+.mat-datepicker-content,
+.mat-datepicker-popup {
+  z-index: 1001 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+}
+
+/* Ngx Material Timepicker panel */
+ngx-material-timepicker, /* ensure component present */
+::ng-deep .ngx-material-timepicker-content,
+::ng-deep .cdk-overlay-pane .timepicker-content {
+  z-index: 1001 !important;
+  background: #fff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+  overflow: hidden;
+}
+
+/* هيدر الساعة */
+::ng-deep .ngx-material-timepicker-header,
+::ng-deep .cdk-overlay-pane .timepicker-header {
+  background: var(--primary-color) !important;
+  color: var(--primary-contrast) !important;
+  font-size: 1.25rem;
+  font-weight: 500;
+  padding: 16px;
+}
+
+/* واجهة اختيار الساعة (dial) */
+::ng-deep .ngx-material-timepicker-dial,
+::ng-deep .cdk-overlay-pane .timepicker-dial {
+  background: var(--bg-light) !important;
+  padding: 16px;
+}
+::ng-deep .ngx-material-timepicker-dial .timepicker-hour,
+::ng-deep .ngx-material-timepicker-dial .timepicker-minute,
+::ng-deep .cdk-overlay-pane .timepicker-dial .timepicker-hour,
+::ng-deep .cdk-overlay-pane .timepicker-dial .timepicker-minute {
+  color: var(--text-color) !important;
+  font-size: 1.1rem;
+}
+::ng-deep .ngx-material-timepicker-dial .timepicker-selected,
+::ng-deep .cdk-overlay-pane .timepicker-dial .timepicker-selected {
+  background: var(--accent-color) !important;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* أزرار التأكيد والإلغاء أسفل الساعة */
+::ng-deep .ngx-material-timepicker-actions button,
+::ng-deep .cdk-overlay-pane .timepicker-actions button {
+  color: var(--primary-color) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0 8px;
+}
+
+/* رفع z-index النهائي للفورم والpickers */
+::ng-deep .cdk-overlay-pane {
+  z-index: 2000 !important;
+}
+
+/* ================================================
+   10) Responsive
+   ================================================ */
+@media (max-width: 768px) {
+  .form-row { flex-direction: column; }
+}
