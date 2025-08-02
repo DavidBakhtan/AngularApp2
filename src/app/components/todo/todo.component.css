@@ -109,31 +109,25 @@ mat-toolbar.toolbar {
   color: #333;
 }
 
-/* تثبيت الزر دايمًا أسفل اليمين */
 .fab-button {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  z-index: 2000;            /* فوق كل الــ overlays */
-  display: flex;            /* لضبط المحتوى مركز */
-  align-items: center;      /* عموديًا في الوسط */
-  justify-content: center;  /* أفقيًا في الوسط */
-  width: 56px;              /* حجم الـ FAB الافتراضي */
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
   height: 56px;
-  padding: 0;               /* لا حشو إضافي */
-}
-
-/* لو حابة تكبري الحجم */
-.fab-button.large {
-  width: 64px;
-  height: 64px;
-}
-
-/* لو استخدمت كلمة بدل أيقونة */
-.fab-button {
+  padding: 0;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   line-height: 1;
+}
+
+.fab-button.large {
+  width: 64px;
+  height: 64px;
 }
 
