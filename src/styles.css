@@ -34,7 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 900; /* أقل من الـ CDK overlay */
+  z-index: 900;; /* أقل من الـ CDK overlay */
   animation: fadeIn 0.3s ease;
 }
 
@@ -152,15 +152,25 @@ mat-toolbar {
 /* ================================================
    9) رفع z-indices للـ pickers (datepicker & timepicker)
    ================================================ */
-/* كسر encapsulation للـ override */
+/* styles.css — بدون ::ng-deep */
 .cdk-overlay-container {
   z-index: 1000 !important;
 }
-
+.cdk-overlay-pane {
+  z-index: 2000 !important;
+}
+.mat-datepicker-content,
+.mat-datepicker-popup {
+  z-index: 2001 !important;
+}
+/* ولو تستخدم ngx-material-timepicker */
+.ngx-material-timepicker-content,
+.timepicker-content {
+  z-index: 2001 !important;
+}
 /* Datepicker */
 .mat-datepicker-content,
 .mat-datepicker-popup {
-  z-index: 1001 !important;
   border-radius: 8px !important;
   box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
 }

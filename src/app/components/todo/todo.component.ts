@@ -37,7 +37,6 @@ import { fromRawTimestamp, RawTimestamp } from 'src/app/utils';
 @Component({
   selector: 'app-todo',
   standalone: true,
-  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
     FormsModule,
@@ -56,7 +55,8 @@ import { fromRawTimestamp, RawTimestamp } from 'src/app/utils';
     MatProgressBarModule,
   ],
   templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.css']
+  styleUrls: ['./todo.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TodoComponent implements OnInit, AfterViewInit {
   today: Date = new Date();

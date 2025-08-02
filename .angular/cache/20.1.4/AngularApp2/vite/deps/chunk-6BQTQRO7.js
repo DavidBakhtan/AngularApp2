@@ -1,27 +1,17 @@
-import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   MediaMatcher
-} from "./chunk-MNAQXYHL.js";
+} from "./chunk-JEWUAQZL.js";
 import {
   ANIMATION_MODULE_TYPE,
   InjectionToken,
   NgModule,
   inject,
-  require_operators,
   setClassMetadata,
   ɵɵdefineInjector,
   ɵɵdefineNgModule
-} from "./chunk-4XOO6SLN.js";
-import {
-  require_cjs
-} from "./chunk-DMO44UNM.js";
-import {
-  __toESM
-} from "./chunk-6DU2HRTW.js";
+} from "./chunk-UE4MNTBD.js";
 
 // node_modules/@angular/cdk/fesm2022/layout.mjs
-var import_rxjs = __toESM(require_cjs(), 1);
-var import_operators = __toESM(require_operators(), 1);
 var LayoutModule = class _LayoutModule {
   static ɵfac = function LayoutModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _LayoutModule)();
@@ -87,4 +77,4 @@ export {
   _getAnimationsState,
   _animationsDisabled
 };
-//# sourceMappingURL=chunk-EXYP33R3.js.map
+//# sourceMappingURL=chunk-6BQTQRO7.js.map
