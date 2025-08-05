@@ -11,7 +11,7 @@ import {
   Platform,
   coerceElement,
   coerceNumberProperty
-} from "./chunk-BPPNNTFS.js";
+} from "./chunk-NIUHH25Z.js";
 import {
   ApplicationRef,
   ChangeDetectionStrategy,
@@ -1699,4 +1699,4 @@ export {
   CdkScrollableModule,
   ScrollingModule
 };
-//# sourceMappingURL=chunk-ISW4YDOJ.js.map
+//# sourceMappingURL=chunk-BVBRGCKQ.js.map

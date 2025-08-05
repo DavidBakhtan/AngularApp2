@@ -1,5 +1,5 @@
-// src/app/components/todo/todo.component.ts
 
+// src/app/components/todo/todo.component.ts
 import {
   Component,
   OnInit,
@@ -24,14 +24,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-
 import { from } from 'rxjs';
-
 import { TaskModel } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';
 import { ReminderService } from '../../services/reminder.service';
 import { TaskItemComponent } from '../task-item/task-item.component';
-
 import { fromRawTimestamp, RawTimestamp } from 'src/app/utils';
 
 @Component({
@@ -52,58 +49,69 @@ import { fromRawTimestamp, RawTimestamp } from 'src/app/utils';
     MatNativeDateModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatProgressBarModule,
+    MatProgressBarModule
   ],
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class TodoComponent implements OnInit, AfterViewInit {
-  today: Date = new Date();
+  today = new Date();
   tasks: TaskModel[] = [];
   @ViewChild('picker') picker!: any;
 
-  // form model (for both add & edit)
   editingTaskId: string | null = null;
   showAddForm = false;
-
-  editedTaskTitle       = '';
+  editedTaskTitle = '';
   editedTaskDescription = '';
-  editedTaskDate        = '';
-  editedTaskTime        = '';
+  editedTaskDate = '';
+  editedTaskTime = '';
   editedReminderValue: number | null = null;
-  editedReminderUnit: 'minutes'|'hours'|'days'|'weeks' = 'minutes';
-  editedTaskLabel       = '';
-  editedTaskImageUrl    = '';
+  editedReminderUnit: 'minutes' | 'hours' | 'days' | 'weeks' = 'minutes';
+  editedTaskLabel = '';
+  editedTaskImageUrl = '';
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
     private taskService: TaskService,
-    private reminderService: ReminderService,
-    private cd: ChangeDetectorRef,
-  ) {}
+    private reminder: ReminderService,
+    private cd: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
-    // 1) طلب صلاحيات الإشعارات في المتصفح فقط
-    if (isPlatformBrowser(this.platformId) && 'Notification' in window && Notification.permission !== 'granted') {
+    if (
+      isPlatformBrowser(this.platformId) &&
+      'Notification' in window &&
+      Notification.permission !== 'granted'
+    ) {
       Notification.requestPermission();
     }
-    
-    // 2) جلب المهام من Firebase، تحويل Timestamp إلى "YYYY-MM-DD"، ثم جدولة التنبيهات
+
     this.taskService.getTasks().subscribe(rawTasks => {
       this.tasks = rawTasks.map(t => {
         let dateStr: string;
-        // إذا كان t.date من نوع RawTimestamp
-        if (t.date && typeof (t.date as any).seconds === 'number') {
-          const ts = (t.date as unknown) as RawTimestamp;
-          const d = fromRawTimestamp(ts);
-          dateStr = d.toISOString().split('T')[0];
+        if (typeof t.date !== 'string') {
+          const ts = t.date as unknown as RawTimestamp;
+          dateStr = fromRawTimestamp(ts).toISOString().split('T')[0];
         } else {
-          dateStr = t.date as string;
+          dateStr = t.date;
         }
-        return { ...t, date: dateStr };
+        return { ...t, date: dateStr } as TaskModel;
       });
-      this.tasks.forEach(task => this.reminderService.scheduleReminder(task));
+
+      this.tasks.forEach(task => {
+        if (task.reminder && task.date && task.time) {
+          this.reminder.scheduleFromStrings(
+            task.id,
+            task.date,
+            task.time,
+            task.reminder.value,
+            task.reminder.unit,
+            task.title
+          );
+        }
+      });
+
       this.cd.markForCheck();
     });
   }
@@ -113,112 +121,97 @@ export class TodoComponent implements OnInit, AfterViewInit {
     this.cd.markForCheck();
   }
 
-  /** يملأ الوقت الافتراضي عند فتح الفورم */
   private setDefaultTime(): void {
-    const now = new Date().toTimeString().substring(0,5);
-    this.editedTaskTime = now;
+    this.editedTaskTime = new Date().toTimeString().slice(0, 5);
   }
 
   onDateChange(): void {
-    if (!this.editedTaskTime) {
-      this.setDefaultTime();
-    }
-    // بعد اختيار التاريخ افتح الـ timepicker
-    setTimeout(() => this.picker?.open(), 100);
+    if (!this.editedTaskTime) this.setDefaultTime();
+    setTimeout(() => this.picker.open(), 100);
     this.cd.markForCheck();
   }
 
-  /** تضيف أو تعدل المهمة بناءً على الحالة الحالية */
   onSubmit(): void {
-    if (!this.editedTaskTitle.trim()) return;
-    if (!this.editedTaskImageUrl.trim()) {
-      alert('Image URL is required');
-      return;
-    }
+    if (!this.editedTaskTitle.trim() || !this.editedTaskImageUrl.trim()) return;
 
     const payload: TaskModel = {
-      id:         this.editingTaskId ?? Date.now().toString(),
-      title:      this.editedTaskTitle.trim(),
-      description:this.editedTaskDescription.trim(),
-      date:       this.editedTaskDate,
-      time:       this.editedTaskTime,
-      completed:  false,
-      reminder:   this.editedReminderValue != null
-                  ? { value: this.editedReminderValue, unit: this.editedReminderUnit }
-                  : undefined,
-      label:      this.editedTaskLabel,
-      imageUrl:   this.editedTaskImageUrl.trim()
+      id: this.editingTaskId ?? Date.now().toString(),
+      title: this.editedTaskTitle.trim(),
+      description: this.editedTaskDescription.trim(),
+      date: this.editedTaskDate,
+      time: this.editedTaskTime,
+      completed: false,
+      reminder:
+        this.editedReminderValue !== null
+          ? { value: this.editedReminderValue, unit: this.editedReminderUnit }
+          : undefined,
+      label: this.editedTaskLabel,
+      imageUrl: this.editedTaskImageUrl.trim()
     };
 
-    if (this.editingTaskId) {
-      // تعديل
-      from(this.taskService.updateTask(payload)).subscribe(() => {
+    const save$ = this.editingTaskId
+      ? this.taskService.updateTask(payload)
+      : this.taskService.addTask(payload);
+
+    from(save$).subscribe(() => {
+      if (this.editingTaskId) {
         const idx = this.tasks.findIndex(t => t.id === payload.id);
-        if (idx > -1) {
-          this.tasks[idx] = payload;
-          this.reminderService.scheduleReminder(payload);
-        }
-        this.cleanupForm();
-        this.showAddForm = false;
-        this.cd.markForCheck();
-      });
-    } else {
-      // إضافة
-      from(this.taskService.addTask(payload)).subscribe(() => {
+        if (idx > -1) this.tasks[idx] = payload;
+      } else {
         this.tasks.push(payload);
-        this.reminderService.scheduleReminder(payload);
-        this.cleanupForm();
-        this.showAddForm = false;
-        this.cd.markForCheck();
-      });
-    }
+      }
+
+      if (payload.reminder && payload.date && payload.time) {
+        this.reminder.scheduleFromStrings(
+          payload.id,
+          payload.date,
+          payload.time,
+          payload.reminder.value,
+          payload.reminder.unit,
+          payload.title
+        );
+      }
+
+
+      this.cleanupForm();
+      this.showAddForm = false;
+      this.cd.markForCheck();
+    });
   }
 
   onToggleTask(task: TaskModel): void {
-    // 1) احسب الحالة الجديدة
-    const newCompleted = !task.completed;
-
-    // 2) جهّز الكائن المُحدَّث
-    const updated: TaskModel = { ...task, completed: newCompleted };
-
-    // 3) أرسل التحديث للسيرفر
+    const updated = { ...task, completed: !task.completed };
     from(this.taskService.updateTask(updated)).subscribe(() => {
-      // 4) ابنِ مصفوفة جديدة للمهام لضمان إعادة الرندر
-      this.tasks = this.tasks.map(t =>
-        t.id === updated.id ? updated : t
-      );
-
-      // 5) إجبر Angular على فحص التغييرات
+      this.tasks = this.tasks.map(t => (t.id === updated.id ? updated : t));
+      if (updated.completed) this.reminder.cancel(updated.id);
       this.cd.markForCheck();
     });
   }
 
   onDeleteTask(id: string): void {
+    this.reminder.cancel(id);
     from(this.taskService.deleteTask(id)).subscribe(() => {
-      // مصفوفة جديدة بعد الحذف
       this.tasks = this.tasks.filter(t => t.id !== id);
       this.cd.markForCheck();
     });
   }
 
   startEditTask(task: TaskModel): void {
-    this.editingTaskId         = task.id;
-    this.editedTaskTitle       = task.title;
+    this.editingTaskId = task.id;
+    this.editedTaskTitle = task.title;
     this.editedTaskDescription = task.description || '';
-    // إن كان التاريخ خامًّا Timestamp
-   if (task.date && typeof (task.date as any).seconds === 'number') {
-   const raw = (task.date as unknown) as RawTimestamp;
-   const d   = fromRawTimestamp(raw);
-      this.editedTaskDate = d.toISOString().split('T')[0];
-    } else {
-      this.editedTaskDate = task.date as string;
-    }
-    this.editedTaskTime      = task.time || '';
+    this.editedTaskDate =
+      typeof task.date === 'string'
+        ? task.date
+        : fromRawTimestamp(task.date as unknown as RawTimestamp)
+          .toISOString()
+          .split('T')[0];
+    this.editedTaskTime = task.time ?? '';
     this.editedReminderValue = task.reminder?.value ?? null;
-    this.editedReminderUnit  = task.reminder?.unit  ?? 'minutes';
-    this.editedTaskLabel     = task.label || '';
-    this.editedTaskImageUrl  = task.imageUrl || '';
-    this.showAddForm         = true;
+    this.editedReminderUnit = task.reminder?.unit ?? 'minutes';
+    this.editedTaskLabel = task.label || '';
+    this.editedTaskImageUrl = task.imageUrl || '';
+    this.showAddForm = true;
     this.cd.markForCheck();
   }
 
@@ -235,15 +228,15 @@ export class TodoComponent implements OnInit, AfterViewInit {
   }
 
   private cleanupForm(): void {
-    this.editingTaskId        = null;
-    this.editedTaskTitle      = '';
-    this.editedTaskDescription= '';
-    this.editedTaskDate       = '';
-    this.editedTaskTime       = '';
-    this.editedReminderValue  = null;
-    this.editedReminderUnit   = 'minutes';
-    this.editedTaskLabel      = '';
-    this.editedTaskImageUrl   = '';
+    this.editingTaskId = null;
+    this.editedTaskTitle = '';
+    this.editedTaskDescription = '';
+    this.editedTaskDate = '';
+    this.editedTaskTime = '';
+    this.editedReminderValue = null;
+    this.editedReminderUnit = 'minutes';
+    this.editedTaskLabel = '';
+    this.editedTaskImageUrl = '';
   }
 
   get completedCount(): number {
@@ -254,7 +247,7 @@ export class TodoComponent implements OnInit, AfterViewInit {
   get progressPercent(): number {
     this.cd.markForCheck();
     return this.tasks.length
-      ? Math.round(this.completedCount / this.tasks.length * 100)
+      ? Math.round((this.completedCount / this.tasks.length) * 100)
       : 0;
   }
 }

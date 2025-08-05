@@ -1,4 +1,6 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
+import "./chunk-EVUCWAHF.js";
+import "./chunk-6K7GMTFC.js";
 import {
   Component,
   Deferred,
@@ -44,8 +46,6 @@ import {
   ɵgetDefaultInstanceOf,
   ɵzoneWrap
 } from "./chunk-CC7IOYSM.js";
-import "./chunk-EVUCWAHF.js";
-import "./chunk-6K7GMTFC.js";
 import {
   InjectionToken,
   Injector,
